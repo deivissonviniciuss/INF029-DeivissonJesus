@@ -151,99 +151,144 @@ int q1(char data[]){
     4 -> datainicial > datafinal
     Caso o cálculo esteja correto, os atributos qtdDias, qtdMeses e qtdAnos devem ser preenchidos com os valores correspondentes.
  */
-DiasMesesAnos q2(char datainicial[], char datafinal[]) {
-    DataQuebrada dataInicial, dataFinal;
-    DiasMesesAnos dma = {0};  // Inicializa as variáveis com 0
+DiasMesesAnos q2(char datainicial[], char datafinal[])
+{
 
-    dataInicial = quebraData(datainicial);
-    dataFinal = quebraData(datafinal);
+    //calcule os dados e armazene nas três variáveis a seguir
+    DiasMesesAnos dma;
 
-    int mesesNegativos = 0;  // Caso a subtração resulte em um valor negativo
-    int anosNegativos = 0;
-    int mesesCom31Dias[7] = {1, 3, 5, 7, 8, 10, 12};
-    int anoBissextoDataInicial = 0;
-    int anoBissextoDataFinal = 0;
+    if (q1(datainicial) == 0){
+      dma.retorno = 2;
+      return dma;
+    }else if (q1(datafinal) == 0){
+      dma.retorno = 3;
+      return dma;
+    }else{
+      //verifique se a data final não é menor que a data inicial
 
-    // Verificar a validade dos dias e meses
-    if ((dataInicial.iDia < 1 || dataInicial.iDia > 31) || (dataInicial.iMes < 1 || dataInicial.iMes > 12)) {
-        dma.retorno = 2;
-        return dma;
-    } else if ((dataFinal.iDia < 1 || dataFinal.iDia > 31) || (dataFinal.iMes < 1 || dataFinal.iMes > 12)) {
-        dma.retorno = 3;
-        return dma;
-    } else if (!(dataInicial.iAno % 4 == 0 || dataInicial.iAno % 400 == 0) && dataInicial.iDia == 29) {
-        dma.retorno = 2;
-        return dma;
-    } else if (dataInicial.iAno % 4 == 0 || dataInicial.iAno % 400 == 0) {
-        anoBissextoDataInicial = 1;
-    } else if (!(dataFinal.iAno % 4 == 0 || dataFinal.iAno % 400 == 0) && dataFinal.iDia == 29) {
-        dma.retorno = 3;
-        return dma;
-    } else if (dataFinal.iAno % 4 == 0 || dataFinal.iAno % 400 == 0) {
-        anoBissextoDataFinal = 1;
-    }
-
-    // Calcular a diferença de dias
-    if (dataInicial.iDia < dataFinal.iDia) {
-        dma.qtdDias = dataFinal.iDia - dataInicial.iDia;
-    } else if (dataInicial.iDia == dataFinal.iDia) {
-        dma.qtdDias = 0;
-    } else {
-        for (int i = 0; i < 7; i++) {
-            if (dataInicial.iMes == mesesCom31Dias[i]) {
-                dma.qtdDias = 31 - (dataInicial.iDia - dataFinal.iDia);
-                mesesNegativos--;
-                break;
-            }
+        //datainicial
+        int i;
+        char diaInicial[3], mesInicial[3], anoInicial[5];
+        for(i = 0; datainicial[i] != '/'; i++){
+            diaInicial[i] = datainicial[i];
         }
-        if (dataInicial.iMes == 2) {
-            if (anoBissextoDataInicial == 0 && anoBissextoDataFinal == 0) {
-                dma.qtdDias = 28 - (dataInicial.iDia - dataFinal.iDia);
-                mesesNegativos--;
-            } else {
-                dma.qtdDias = 29 - (dataInicial.iDia - dataFinal.iDia);
-                mesesNegativos--;
-            }
+        diaInicial[i] = '\0';
+
+        int j = 0;
+        for(i = i + 1; datainicial[i] != '/'; i++){
+            mesInicial[j] = datainicial[i];
+            j++;
         }
-        if (dma.qtdDias == 0) {
-            dma.qtdDias = 30 - (dataInicial.iDia - dataFinal.iDia);
-            mesesNegativos--;
+        mesInicial[j] = '\0';
+
+        j = 0;
+        for(i = i + 1; datainicial[i] != '\0'; i++){
+            anoInicial[j] = datainicial[i];
+            j++;
         }
-        if (anoBissextoDataInicial == 1 && anoBissextoDataFinal == 0) {
-            dma.qtdDias -= 1;
+        anoInicial[j] = '\0';
+
+        //dataFinal 
+        i = 0;
+        char diaFinal[3], mesFinal[3], anoFinal[5];
+        for(i = 0; datafinal[i] != '/'; i++){
+            diaFinal[i] = datafinal[i];
         }
+        diaFinal[i] = '\0';
+
+        j = 0;
+        for(i = i + 1; datafinal[i] != '/'; i++){
+            mesFinal[j] = datafinal[i];
+            j++;
+        }
+        mesFinal[j] = '\0';
+
+        j = 0;
+        for(i = i + 1; datafinal[i] != '\0'; i++){
+            anoFinal[j] = datafinal[i];
+            j++;
+        }
+        anoFinal[j] = '\0';   
+
+        //converter para inteiro
+        int diai = 0;
+        for(int k = 0; diaInicial[k] != '\0'; k++)
+            diai = diai * 10 + (diaInicial[k] - 48);
+        int mesi = 0;
+        for(int k = 0; mesInicial[k] != '\0'; k++)
+            mesi = mesi * 10 + (mesInicial[k] - 48);
+        int anoi = 0;
+        for(int k = 0; anoInicial[k] != '\0'; k++)
+            anoi = anoi * 10 + (anoInicial[k] - 48);
+
+        int diaf = 0;
+        for(int k = 0; diaFinal[k] != '\0'; k++)
+            diaf = diaf * 10 + (diaFinal[k] - 48);
+        int mesf = 0;
+        for(int k = 0; mesFinal[k] != '\0'; k++)
+            mesf = mesf * 10 + (mesFinal[k] - 48);
+        int anof = 0;
+        for(int k = 0; anoFinal[k] != '\0'; k++)
+            anof = anof * 10 + (anoFinal[k] - 48);
+
+        if(anof < anoi){
+            dma.retorno = 4;
+            return dma;
+        } else if(anof == anoi && mesi > mesf){
+            dma.retorno = 4;
+            return dma;
+        } else if(anof == anoi && mesf == mesi && diai > diaf){
+            dma.retorno = 4;
+            return dma;
+        }
+
+      //calcule a distancia entre as datas
+
+        if(diaf > diai){
+            dma.qtdDias = diaf - diai;
+        } else if(diaf < diai) {
+            if(verificarBissexto(anoi) && mesi == 2)
+                dma.qtdDias = 28 - diai + diaf;
+            else if(mesi == 2)
+                dma.qtdDias = 29 - diai + diaf;
+            else if(mesf == 1 || mesf == 3 || mesf == 5 || mesf == 7|| mesf == 10 || mesf == 12)
+                dma.qtdDias = 30 - diai + diaf;
+            else if(mesf == 2 || mesf == 4 || mesf == 6 || mesf == 8 || mesf == 9 || mesf == 11)
+                dma.qtdDias = 31 - diai + diaf;
+        } else {
+            dma.qtdDias = 0;
+        }
+
+        int subtrair = 0;
+        if(mesf > mesi && diaf >= diai){
+            dma.qtdMeses = mesf - mesi;  
+        } else if(mesf > mesi && diaf < diai){
+            dma.qtdMeses = mesf - mesi - 1;
+        } else if(mesf < mesi && diaf >= diai){
+            dma.qtdMeses = 12 - mesi + mesf;
+        } else if(mesf < mesi && diaf < diai){
+            dma.qtdMeses = 12 - mesi + mesf + 1;
+        } else if(mesf == mesi && diaf < diai){
+            dma.qtdMeses = 11;
+            subtrair++;
+        } else {
+            dma.qtdMeses = 0;
+        }
+
+        if(anof > anoi && mesf >= mesi){
+            dma.qtdAnos = anof - anoi - subtrair;
+        } else if (anof > anoi && mesf < mesi){
+            dma.qtdAnos = anof - anoi - 1;
+        } else {
+            dma.qtdAnos = 0;
+        }
+
+      //se tudo der certo
+      dma.retorno = 1;
+      return dma;
+
     }
 
-    // Calcular a diferença de meses
-    if (dataInicial.iMes < dataFinal.iMes) {
-        dma.qtdMeses = dataFinal.iMes - dataInicial.iMes;
-    } else if (dataInicial.iMes == dataFinal.iMes) {
-        dma.qtdMeses = 0;
-    } else {
-        dma.qtdMeses -= 12 - (dataInicial.iMes - dataFinal.iMes);
-        dma.qtdAnos -= 1;
-    }
-
-    // Calcular a diferença de anos
-    if (dataInicial.iAno < dataFinal.iAno) {
-        dma.qtdAnos = dataFinal.iAno - dataInicial.iAno;
-    } else if (dataInicial.iAno == dataFinal.iAno) {
-        dma.qtdAnos = 0;
-    } else {
-        dma.qtdAnos -= dataInicial.iAno - dataFinal.iAno;
-    }
-
-    // Verificar se a data final é anterior à inicial
-    if (dma.qtdDias < 0 || dma.qtdMeses < 0 || dma.qtdAnos < 0) {
-        dma.retorno = 4;
-        return dma;
-    }
-
-    // Ajustar os meses negativos, se necessário
-    dma.qtdMeses += mesesNegativos;
-    dma.retorno = 1;  // Se tudo estiver correto
-
-    return dma;
 }
 
 
