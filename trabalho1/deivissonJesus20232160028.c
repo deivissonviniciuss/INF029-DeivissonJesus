@@ -26,6 +26,7 @@
 #include <stdlib.h>
 
 DataQuebrada quebraData(char data[]);
+int verificarBissexto(int ano);
 
 /*
 ## função utilizada para testes  ##
@@ -164,7 +165,6 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
       dma.retorno = 3;
       return dma;
     }else{
-      //verifique se a data final não é menor que a data inicial
 
         //datainicial
         int i;
