@@ -160,7 +160,6 @@ int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[])
     
     return retorno;
 }
-
 /*
 Objetivo: retorna os números de todas as estruturas auxiliares.
 os números devem ser armazenados em vetorAux
