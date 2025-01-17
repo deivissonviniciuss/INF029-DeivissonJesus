@@ -32,4 +32,8 @@ void inicializar();
 void finalizar();
 void dobrar(int *x);
 
+int verificarPosicaoValida(int posicao);
+int verificarEspaco(int posicao);
+int verficarValor(int posicao, int valor);
+
 #endif  // TRABALHO2_ESTRUTURAVETORES_H
