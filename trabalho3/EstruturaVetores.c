@@ -494,6 +494,7 @@ void finalizar() {
             fprintf(arquivo, "\n");  
         }
         fclose(arquivo); 
+        
     } else {
         printf("Erro ao abrir o arquivo para salvar.\n");
     }
