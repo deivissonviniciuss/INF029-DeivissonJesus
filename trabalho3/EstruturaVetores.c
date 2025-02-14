@@ -451,12 +451,7 @@ void inicializar() {
         vetorPrincipal[i].vetorAux = NULL;
     
     FILE *arquivo = fopen("estruturas.txt", "w+"); 
-    for (int i = 0; i < TAM; i++) {
-        vetorPrincipal[i].vetorAux = NULL;
-        vetorPrincipal[i].qtd = 0;
-        vetorPrincipal[i].tamanho = 0;
-    }
-
+    
     if (arquivo) {
         for (int i = 0; i < TAM; i++) {
             fscanf(arquivo, "%d", &vetorPrincipal[i].tamanho);  
@@ -470,9 +465,8 @@ void inicializar() {
             }
         }
         fclose(arquivo);  
-    } else {
+    } else 
         printf("Arquivo não encontrado!\n");
-    }
 }
 
 void finalizar() {
@@ -494,10 +488,8 @@ void finalizar() {
             fprintf(arquivo, "\n");  
         }
         fclose(arquivo); 
-        
-    } else {
+    } else 
         printf("Erro ao abrir o arquivo para salvar.\n");
-    }
     
     free(vetorPrincipal -> vetorAux);
 }
